@@ -61,6 +61,7 @@ class GetTags(webapp.RequestHandler):
                     result.append({"name": tag.title.text, "weight":w})
             else:
                 pass #TODO: give a message about not being authenticated
+            self.response.headers['Content-Type'] = "application/json"
             self.response.out.write(simplejson.dumps(result))
         else:
             self.redirect(users.create_login_url(self.request.uri))
