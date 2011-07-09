@@ -1,0 +1,26 @@
+body {
+    background-color: #CCC;
+}
+
+#loadingspan{
+    background-color: #090;
+}
+
+#navbar{
+    overflow:auto;
+    background-color: #EEE;
+    padding: 2px;
+}
+
+#navbar .left{
+   float:left;
+}
+
+#navbar .right{
+    float:right;
+}
+
+#tags{
+    background-color: #BBB;
+    width: 20%;
+}

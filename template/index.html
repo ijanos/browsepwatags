@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <title>Browse PWA tags</title>
+        
+         <link rel="stylesheet" href="css/index.css" type="text/css" />
+         <link rel="stylesheet" href="css/css3buttons.css" type="text/css" />
+
+        <script type="text/javascript"
+         src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.quicksearch.js"></script>
+
+        <script type="text/javascript">
+          $(document).ready(function() {
+
+             $('#loadingspan')
+                .hide()  // hide it initially
+                .ajaxStart(function() {
+                    $(this).show();
+                })
+                .ajaxStop(function() {
+                    $(this).hide();
+                });
+
+             $.getJSON('tags', function(tags) {
+                var items = [];
+
+                tags.sort(function(a,b){
+                 return b.weight - a.weight;
+                });
+
+                $.each(tags, function(i) {
+                  items.push('<tr><td>' + tags[i].name + '</td><td>' + tags[i].weight + '</td></tr>');
+                });
+
+                $("#tagtable").html(items.join(''))
+
+                $('input#search').quicksearch('table#tagtable tr');
+            });
+
+
+          });
+        </script>
+    </head>
+
+  <body>
+
+    <div id="navbar">
+         <div class="left">
+            Hello {{ usernick }} 
+            {% if needpicasaauth %}
+            <a href="{{ needpicasaauth }}" class="button">Get Picasa token</a> 
+            {% endif %} 
+         </div>
+
+         <div class="right">
+            <a href="{{ signout }}" class="negative button">Log out</a>
+         </div>
+    </div>
+
+
+    <div id="tags">
+        <span id="loadingspan">L O A D I N G</span>
+        <form action="#">
+            <input type="text" id="search" placeholder="Search">
+        </form>
+        <table id="tagtable"></table>
+    </div>
+    
+    <div id="contet">
+    </div>
+
+  </body>
+{% comment %} vim: set filetype=htmldjango : {% endcomment %}
+</html>
