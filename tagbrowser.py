@@ -20,7 +20,6 @@ from google.appengine.ext.webapp import template
 
 class UserPrefs(db.Model):
     user = db.UserProperty()
-    auto_rotate = db.BooleanProperty()
     picasa_token = db.StringProperty()
 
 def get_user_prefs():
