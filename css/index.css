@@ -1,9 +1,16 @@
 body {
     background-color: #CCC;
+    text-align: center;
+    position:relative;
 }
 
-#loadingspan{
-    background-color: #090;
+#loadingdiv{
+    position:absolute;
+    top: 0px;
+    background-color: #FFD55C;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #navbar{
@@ -20,7 +27,18 @@ body {
     float:right;
 }
 
+#photos{
+    text-align: left;
+}
+
 #tags{
     background-color: #BBB;
-    width: 20%;
+    width: 200px;
+    text-align: left;
+    float: left;
+}
+
+#tagstrip{
+    text-align: left;
+    background-color: #BBB;
 }

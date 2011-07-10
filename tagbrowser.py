@@ -67,6 +67,29 @@ class GetTags(webapp.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
 
 
+class ImageList(webapp.RequestHandler):
+
+    def get(self, tags):
+        user = users.get_current_user()
+
+        if user:
+            taglist = tags.split('/')
+            result = []
+
+            gd_client = get_gd_client()
+            if gd_client and gd_client.GetAuthSubToken():
+                photos = gd_client.GetTaggedPhotos(taglist[0], user=user.nickname())
+                images = []
+                for photo in photos.entry:
+                    url  = photo.content.src
+                    url_thumb = url[:url.rfind('/')] + '/s128' + url[url.rfind('/'):]
+                    images.append({'original':url, 'thumbnail': url_thumb})
+
+            self.response.headers['Content-Type'] = "application/json"
+            self.response.out.write(simplejson.dumps(images))
+        else:
+            self.redirect(users.create_login_url(self.request.uri))
+
 
 class MainPage(webapp.RequestHandler):
 
@@ -127,8 +150,10 @@ class MainPage(webapp.RequestHandler):
 def main():
     logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication(
-                                         [('/',     MainPage)
-                                         ,('/tags', GetTags)],
+                                         [('/',       MainPage)
+                                         ,('/tags',   GetTags)
+                                         ,('/t/(.*)', ImageList)
+                                         ],
                                          debug=True)
     run_wsgi_app(application)
 

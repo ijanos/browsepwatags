@@ -10,9 +10,37 @@
         <script type="text/javascript" src="js/jquery.quicksearch.js"></script>
 
         <script type="text/javascript">
-          $(document).ready(function() {
+            var CurrentTagFilter = []
 
-             $('#loadingspan')
+            var updateTagStrip = function(){
+                 var cTag = CurrentTagFilter[CurrentTagFilter.length-1];
+                 $.getJSON('t/' + cTag, function(imgs) {
+                    var items = [];
+
+                    $.each(imgs, function(i) {
+                        items.push(
+                            '<a href="'  + imgs[i].original  + '">' +
+                            '<img src="' + imgs[i].thumbnail + '"></img></a>');
+                    });
+
+                    $("#photos").append(items.join(''))
+                });
+
+                 $("#tagstrip")
+                  .append('<a href="#" class="button"><span class="tag icon"></span>' + cTag + '</a>');
+
+            };
+
+            var addTag = function(tag){
+                CurrentTagFilter.push(tag)
+                updateTagStrip();
+            };
+          $(document).ready(function() {
+                  $(CurrentTagFilter).change(function(){
+                        alert(omg)
+                      })
+
+             $('#loadingdiv')
                 .hide()  // hide it initially
                 .ajaxStart(function() {
                     $(this).show();
@@ -20,6 +48,7 @@
                 .ajaxStop(function() {
                     $(this).hide();
                 });
+
 
              $.getJSON('tags', function(tags) {
                 var items = [];
@@ -29,13 +58,20 @@
                 });
 
                 $.each(tags, function(i) {
-                  items.push('<tr><td>' + tags[i].name + '</td><td>' + tags[i].weight + '</td></tr>');
+                    items.push('<tr class="tagtr"><td class ="tagname">'
+                         + tags[i].name + '</td><td>' + tags[i].weight + '</td></tr>');
                 });
 
                 $("#tagtable").html(items.join(''))
 
                 $('input#search').quicksearch('table#tagtable tr');
+
+                 $(".tagtr").click(function(){
+                    var tagname = $('td.tagname',this).html()
+                    addTag(tagname)
+                 });
             });
+
 
 
           });
@@ -43,6 +79,8 @@
     </head>
 
   <body>
+
+    <div id="loadingdiv">L O A D I N G</div>
 
     <div id="navbar">
          <div class="left">
@@ -57,16 +95,17 @@
          </div>
     </div>
 
-
-    <div id="tags">
-        <span id="loadingspan">L O A D I N G</span>
-        <form action="#">
-            <input type="text" id="search" placeholder="Search">
-        </form>
-        <table id="tagtable"></table>
-    </div>
-    
-    <div id="contet">
+    <div id="main">
+        <div id="tags">
+            <form action="#">
+                <input type="text" id="search" autocomplete="off" placeholder="Search">
+            </form>
+            <table id="tagtable"></table>
+        </div>
+        <div id="tagstrip">
+        </div>
+        <div id="photos">
+        </div>
     </div>
 
   </body>
