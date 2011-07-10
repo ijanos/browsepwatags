@@ -13,11 +13,14 @@
             var CurrentTagFilter = []
 
             var updateTagStrip = function(){
+
                  var cTag = CurrentTagFilter[CurrentTagFilter.length-1];
+
                  $.getJSON('t/' + cTag, function(imgs) {
                     var items = [];
 
                     $.each(imgs, function(i) {
+                        console.log(imgs[i].tags);
                         items.push(
                             '<a href="'  + imgs[i].original  + '">' +
                             '<img src="' + imgs[i].thumbnail + '"></img></a>');
@@ -35,6 +38,7 @@
                 CurrentTagFilter.push(tag)
                 updateTagStrip();
             };
+
           $(document).ready(function() {
              $('#loadingdiv')
                 .hide()  // hide it initially
