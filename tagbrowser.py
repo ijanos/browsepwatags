@@ -81,7 +81,7 @@ class ImageList(webapp.RequestHandler):
                 for photo in photos.entry:
                     url  = photo.content.src
                     url_thumb = photo.media.thumbnail[1].url
-                    phototags = photo.media.keywords.text.split(',')
+                    phototags = photo.media.keywords.text.split(', ')
                     images.append({'original':url
                                   ,'thumbnail': url_thumb
                                   ,'tags': phototags
