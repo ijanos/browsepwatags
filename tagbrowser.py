@@ -72,12 +72,11 @@ class ImageList(webapp.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            taglist = tags.split('/')
             result = []
 
             gd_client = get_gd_client()
             if gd_client and gd_client.GetAuthSubToken():
-                photos = gd_client.GetTaggedPhotos(taglist[0], user=user.nickname())
+                photos = gd_client.GetTaggedPhotos(tags, user=user.nickname())
                 images = []
                 for photo in photos.entry:
                     url  = photo.content.src
