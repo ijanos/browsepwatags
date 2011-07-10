@@ -82,7 +82,7 @@ class ImageList(webapp.RequestHandler):
                 images = []
                 for photo in photos.entry:
                     url  = photo.content.src
-                    url_thumb = url[:url.rfind('/')] + '/s128' + url[url.rfind('/'):]
+                    url_thumb = photo.media.thumbnail[1].url
                     images.append({'original':url, 'thumbnail': url_thumb})
 
             self.response.headers['Content-Type'] = "application/json"
