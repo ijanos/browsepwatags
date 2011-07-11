@@ -3,6 +3,7 @@ A simple JavaScipt Set data structure
 */
 
 var Set = function(){
+
     var set = []
 
     function unique(item){
@@ -13,8 +14,17 @@ var Set = function(){
         return true;
     }
 
+    function del(item){
+        var idx = set.indexOf(item);
+        if (idx != -1) set.splice(idx, 1);
+    }
+
+    function isEmpty(){
+        return set.length === 0
+    }
+
     function add(item){
-        if (item.length)
+        if (item.length) // If the item is an array iterate it
         {
             for(var i=0; i<item.length; i++)
             {
@@ -31,8 +41,11 @@ var Set = function(){
         return set;
     }
 
+    // "Export" the public functions
     return {
         add: add,
-        get: get
+        get: get,
+        del: del,
+        isEmpty: isEmpty
     }
 };
