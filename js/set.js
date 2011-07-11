@@ -33,7 +33,7 @@ var Set = function(){
         }
         else
         {
-            if (unique(item)) set.push(item[i])
+            if (unique(item)) set.push(item)
         }
     }
 
