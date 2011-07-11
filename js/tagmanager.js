@@ -53,7 +53,7 @@ var initTags = function(){
         });
 
         $.each(tags, function(i) {
-            items.push('<tr class="tagtr"><td class ="tagname">' + tags[i].name + '</td><td>' + tags[i].weight + '</td></tr>');
+            items.push('<li class ="tagname">' + tags[i].name + '</li>');
         });
 
         fillTagList(items);
@@ -63,9 +63,9 @@ var initTags = function(){
 
 var fillTagList = function(items){
 
-    $("#tagtable").html(items.join(''))
+    $("#taglist").html(items.join(''))
 
-    $('input#search').quicksearch('table#tagtable tr');
+    $('input#search').quicksearch('ul#taglist li');
 
     $(".tagtr").click(function() {
         var tagname = $('td.tagname', this).html()
