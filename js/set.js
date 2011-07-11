@@ -41,11 +41,16 @@ var Set = function(){
         return set;
     }
 
+    function size(){
+        return set.length
+    }
+
     // "Export" the public functions
     return {
         add: add,
         get: get,
         del: del,
-        isEmpty: isEmpty
+        isEmpty: isEmpty,
+        size: size
     }
 };
