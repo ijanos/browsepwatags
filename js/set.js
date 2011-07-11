@@ -24,7 +24,7 @@ var Set = function(){
     }
 
     function add(item){
-        if (item.length) // If the item is an array iterate it
+        if ($.isArray(item)) // If the item is an array iterate it
         {
             for(var i=0; i<item.length; i++)
             {
