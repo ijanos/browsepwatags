@@ -1,5 +1,5 @@
 /*
-A simple JavaScipt Set datasctrcture
+A simple JavaScipt Set data structure
 */
 
 var Set = function(){
