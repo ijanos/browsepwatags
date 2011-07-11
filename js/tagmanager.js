@@ -1,41 +1,50 @@
-// Global variables
-var CurrentTagFilter = []
+/*
+ * Tag filtering
+ */
+
+var FullTagList = []
+var CurrentTagFilter = Set()
 
 var updateTagStrip = function() {
 
-    var cTag = CurrentTagFilter[CurrentTagFilter.length - 1];
+    var cTag = CurrentTagFilter.get()[CurrentTagFilter.size() - 1]
 
     $.getJSON('t/' + cTag, function(imgs) {
         var items = [];
 
         $.each(imgs, function(i) {
-            console.log(imgs[i].tags);
+            //console.log(imgs[i].tags);
             items.push('<a href="' + imgs[i].original + '">' + '<img src="' + imgs[i].thumbnail + '"></img></a>');
         });
 
         $("#photos").append(items.join(''))
     });
 
-    $("#tagstrip").append('<a href="#" class="button"><span class="tag icon"></span>' + cTag + '</a>');
+    var iconspan = $('<span/>', {
+        class: "cross icon"
+    });
+
+    $('<a/>', {
+        href: '#',
+        title: 'Remove this tag',
+        class: 'button',
+        text: cTag
+    }).prepend(iconspan).appendTo('#tagstrip');
 
 };
 
 var addTag = function(tag) {
-    CurrentTagFilter.push(tag)
+    CurrentTagFilter.add(tag)
     updateTagStrip();
 };
 
+var removeTag = function(tag) {
+    // ... 
+    updateTagStrip();
+};
 
-var main = function() {
-
-    $('#loadingdiv').hide() // hide it initially
-    .ajaxStart(function() {
-        $(this).show();
-    }).ajaxStop(function() {
-        $(this).hide();
-    });
-
-
+var initTags = function(){
+// Get all the tags from the server
     $.getJSON('tags', function(tags) {
         var items = [];
 
@@ -47,15 +56,35 @@ var main = function() {
             items.push('<tr class="tagtr"><td class ="tagname">' + tags[i].name + '</td><td>' + tags[i].weight + '</td></tr>');
         });
 
-        $("#tagtable").html(items.join(''))
+        fillTagList(items);
 
-        $('input#search').quicksearch('table#tagtable tr');
-
-        $(".tagtr").click(function() {
-            var tagname = $('td.tagname', this).html()
-            addTag(tagname)
-        });
     });
+};
+
+var fillTagList = function(items){
+
+    $("#tagtable").html(items.join(''))
+
+    $('input#search').quicksearch('table#tagtable tr');
+
+    $(".tagtr").click(function() {
+        var tagname = $('td.tagname', this).html()
+        addTag(tagname)
+    });
+
+};
+
+var main = function() {
+
+    // Show this div only when there is at least one active ajax query
+    $('#loadingdiv').hide()
+    .ajaxStart(function() {
+        $(this).show();
+    }).ajaxStop(function() {
+        $(this).hide();
+    });
+
+    initTags();
 
 };
 
