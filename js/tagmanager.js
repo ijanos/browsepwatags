@@ -1,78 +1,98 @@
 /*
- * Tag filtering
+ * Tag management
  */
 
-var FullTagList = []
-var CurrentTagFilter = Set()
+var TagList = function(){
 
-var updateTagStrip = function() {
+    var taglistid = "#taglist" //FIXME hardwired id
+    var taglist = [];
 
-    var cTag = CurrentTagFilter.get()[CurrentTagFilter.size() - 1]
+    var addToTagstrip = function(tag){
 
-    $.getJSON('t/' + cTag, function(imgs) {
-        var items = [];
+        var iconspan = document.createElement('span');
+        iconspan.className = "cross icon";
 
-        $.each(imgs, function(i) {
-            //console.log(imgs[i].tags);
-            items.push('<a href="' + imgs[i].original + '">' + '<img src="' + imgs[i].thumbnail + '"></img></a>');
+        var f = function(){
+            // TODO remove tag filter
+            $(this).remove();
+        }
+
+        $('<a/>', {
+            title: 'Remove this tag',
+            class: 'button',
+            text: tag
+        }).prepend(iconspan)
+          .click(f)
+          .appendTo('#tagstrip');
+    };
+
+    var hideAllBut = function(tags){
+        $("li.tagentry").hide(); // hide all
+        $.each(tags, function(i){
+            //then show only the availables
+            $("li:contains(" + tags[i] + ")").show();
+        });
+    };
+
+    var loadPhotos = function(tag){
+        $.getJSON('t/' + tag, function(imgs) {
+            var items = [];
+
+            $.each(imgs, function(i) {
+                //console.log(imgs[i].tags);
+                items.push('<a href="' + imgs[i].original + '">' + '<img src="' + imgs[i].thumbnail + '"></img></a>');
+            });
+
+            $("#photos").append(items.join(''))
+        });
+    };
+
+    var showAll = function(){
+        $("li.tagentry").show();
+    };
+
+    var fillTagList = function(items){
+        $.each(items, function(i) {
+            $('<li/>',{
+                class: "tagentry",
+                text: items[i].name
+            }).appendTo(taglistid);
         });
 
-        $("#photos").append(items.join(''))
-    });
+        //FIXME this will search hidden entries too
+        $('input#search').quicksearch('ul#taglist li')
 
-    var iconspan = $('<span/>', {
-        class: "cross icon"
-    });
-
-    $('<a/>', {
-        href: '#',
-        title: 'Remove this tag',
-        class: 'button',
-        text: cTag
-    }).prepend(iconspan).appendTo('#tagstrip');
-
-};
-
-var addTag = function(tag) {
-    CurrentTagFilter.add(tag)
-    updateTagStrip();
-};
-
-var removeTag = function(tag) {
-    // ... 
-    updateTagStrip();
-};
-
-var initTags = function(){
-// Get all the tags from the server
-    $.getJSON('tags', function(tags) {
-        var items = [];
-
-        tags.sort(function(a, b) {
-            return b.weight - a.weight;
+        $(".tagentry").click(function() {
+            var tagname = $(this).html();
+            loadPhotos(tagname);
+            addToTagstrip(tagname); 
         });
 
-        $.each(tags, function(i) {
-            items.push('<li class ="tagname">' + tags[i].name + '</li>');
+    };
+
+    var init = function(){
+    // Get all the tags from the server
+        $.getJSON('tags', function(tags) {
+            var items = [];
+
+            tags.sort(function(a, b) {
+                return b.weight - a.weight;
+            });
+
+            taglist = $.map(tags, function(tag){
+                return tag.name
+            });
+
+            fillTagList(tags);
         });
 
-        fillTagList(items);
+    };
 
-    });
+    return{
+        init: init,
+    }
 };
 
-var fillTagList = function(items){
-
-    $("#taglist").html(items.join(''))
-
-    $('input#search').quicksearch('ul#taglist li');
-
-    $(".tagtr").click(function() {
-        var tagname = $('td.tagname', this).html()
-        addTag(tagname)
-    });
-
-};
 
 var main = function() {
 
@@ -84,7 +104,8 @@ var main = function() {
         $(this).hide();
     });
 
-    initTags();
+    var TL = TagList();
+    TL.init();
 
 };
 
