@@ -15,8 +15,18 @@ var Set = function(){
     }
 
     function del(item){
-        var idx = set.indexOf(item);
-        if (idx != -1) set.splice(idx, 1);
+        if ($.isArray(item))
+        {
+            $.each(item, function(){
+                var idx = set.indexOf(this);
+                if (idx != -1) set.splice(idx, 1);
+            });
+        }
+        else
+        {
+            var idx = set.indexOf(item);
+            if (idx != -1) set.splice(idx, 1);
+        }
     }
 
     function isEmpty(){
