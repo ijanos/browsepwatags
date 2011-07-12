@@ -28,9 +28,9 @@ var TagList = function(){
 
     var hideAllBut = function(tags){
         $("li.tagentry").hide(); // hide all
-        $.each(tags, function(i){
+        $.each(tags, function(){
             //then show only the availables
-            $("li:contains(" + tags[i] + ")").show();
+            $("li:contains(" + this + ")").show();
         });
     };
 
@@ -38,9 +38,9 @@ var TagList = function(){
         $.getJSON('t/' + tag, function(imgs) {
             var items = [];
 
-            $.each(imgs, function(i) {
+            $.each(imgs, function() {
                 //console.log(imgs[i].tags);
-                items.push('<a href="' + imgs[i].original + '">' + '<img src="' + imgs[i].thumbnail + '"></img></a>');
+                items.push('<a href="' + this.original + '">' + '<img src="' + this.thumbnail + '"></img></a>');
             });
 
             $("#photos").append(items.join(''))
@@ -52,10 +52,10 @@ var TagList = function(){
     };
 
     var fillTagList = function(items){
-        $.each(items, function(i) {
+        $.each(items, function() {
             $('<li/>',{
                 class: "tagentry",
-                text: items[i].name
+                text: this.name
             }).appendTo(taglistid);
         });
 
