@@ -5,7 +5,22 @@
 var TagList = function(){
 
     var taglistid = "#taglist" //FIXME hardwired id
-    var taglist = [];
+    var filterList = []
+
+
+    var removeTag = function(tag){
+        var idx = filterList.indexOf(tag);
+        if (idx != -1) filterList.splice(idx, 1);
+        if (filterList.length > 0)
+        {
+            reloadPhotos();
+        }
+        else
+        {
+            $("#photos").empty();
+            showAll();
+        }
+    }
 
     var addToTagstrip = function(tag){
 
@@ -13,7 +28,7 @@ var TagList = function(){
         iconspan.className = "cross icon";
 
         var f = function(){
-            // TODO remove tag filter
+            removeTag($(this).text());
             $(this).remove();
         }
 
@@ -35,15 +50,28 @@ var TagList = function(){
     };
 
     var loadPhotos = function(tag){
-        $.getJSON('t/' + tag, function(imgs) {
+        filterList.push(tag)
+        reloadPhotos();
+    };
+
+    var reloadPhotos = function(){
+        tags = filterList.join(',')
+
+        $.getJSON('t/' + tags, function(imgs) {
             var items = [];
+            var newFilter = Set()
 
             $.each(imgs, function() {
-                //console.log(imgs[i].tags);
+                newFilter.add(this.tags)
                 items.push('<a href="' + this.original + '">' + '<img src="' + this.thumbnail + '"></img></a>');
             });
 
-            $("#photos").append(items.join(''))
+            $('input#search').val(''); // empty the search box
+            newFilter.del(tags);
+            hideAllBut(newFilter.get())
+
+            $("#photos").empty();
+            $("#photos").append(items.join(''));
         });
     };
 
@@ -62,7 +90,7 @@ var TagList = function(){
         //FIXME this will search hidden entries too
         $('input#search').quicksearch('ul#taglist li')
 
-        $(".tagentry").click(function() {
+        $("#taglist li.tagentry").click(function() {
             var tagname = $(this).html();
             loadPhotos(tagname);
             addToTagstrip(tagname); 
@@ -79,10 +107,6 @@ var TagList = function(){
                 return b.weight - a.weight;
             });
 
-            taglist = $.map(tags, function(tag){
-                return tag.name
-            });
-
             fillTagList(tags);
         });
 
@@ -93,6 +117,7 @@ var TagList = function(){
     }
 };
 
+    var TL = TagList();
 
 var main = function() {
 
@@ -104,7 +129,6 @@ var main = function() {
         $(this).hide();
     });
 
-    var TL = TagList();
     TL.init();
 
 };
