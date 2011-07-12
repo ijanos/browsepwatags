@@ -42,3 +42,8 @@ body {
     text-align: left;
     background-color: #BBB;
 }
+
+li.tagentry:hover {
+    background-color: #FFF;
+    cursor: pointer;
+}
