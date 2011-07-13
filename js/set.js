@@ -17,8 +17,8 @@ var Set = function(){
     function del(item){
         if ($.isArray(item))
         {
-            $.each(item, function(){
-                var idx = set.indexOf(this);
+            $.each(item, function(i){
+                var idx = set.indexOf(item[i]);
                 if (idx != -1) set.splice(idx, 1);
             });
         }
