@@ -81,7 +81,7 @@ var TagList = function(){
             $("#photos").append(images)
 
             $('input#search').val(''); // empty the search box
-            newFilter.del(tags);
+            newFilter.del(filterList);
             hideAllBut(newFilter.get())
 
         });
