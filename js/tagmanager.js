@@ -2,15 +2,15 @@
  * Tag management
  */
 
-var TagList = function(){
+var TagList = function () {
 
-    var taglistid = "#taglist" //FIXME hardwired id
-    var filterList = []
+    var taglistid = "#taglist"; //FIXME hardwired id
+    var filterList = [];
 
 
-    var removeTag = function(tag){
+    var removeTag = function (tag) {
         var idx = filterList.indexOf(tag);
-        if (idx != -1) filterList.splice(idx, 1);
+        if (idx !== -1) filterList.splice(idx, 1);
         if (filterList.length > 0)
         {
             reloadPhotos();
@@ -22,12 +22,12 @@ var TagList = function(){
         }
     }
 
-    var addToTagstrip = function(tag){
+    var addToTagstrip = function (tag) {
 
         var iconspan = document.createElement('span');
         iconspan.className = "cross icon";
 
-        var f = function(){
+        var f = function () {
             removeTag($(this).text());
             $(this).remove();
         }
@@ -41,30 +41,30 @@ var TagList = function(){
           .appendTo('#tagstrip');
     };
 
-    var hideAllBut = function(tags){
+    var hideAllBut = function (tags) {
         $("li.tagentry").hide(); // hide all
-        $.each(tags, function(){
+        $.each(tags, function () {
             //then show only the availables
             $("li:contains(" + this + ")").show();
         });
     };
 
-    var loadPhotos = function(tag){
+    var loadPhotos = function (tag) {
         filterList.push(tag)
         reloadPhotos();
     };
 
-    var reloadPhotos = function(){
-        tags = filterList.join(',')
+    var reloadPhotos = function () {
+        var tags = filterList.join(',');
 
-        $.getJSON('t/' + tags, function(imgs) {
-            var newFilter = Set()
-            var images = []
+        $.getJSON('t/' + tags, function (imgs) {
+            var newFilter = Set();
+            var images = [];
 
             $("#photos").empty();
 
-            $.each(imgs, function() {
-                newFilter.add(this.tags)
+            $.each(imgs, function () {
+                newFilter.add(this.tags);
 
                 var img = document.createElement('img');
                 img.src    = this.thumbnail.url;
@@ -75,24 +75,24 @@ var TagList = function(){
                 link.href = this.original;
                 link.appendChild(img);
 
-                images.push(link)
+                images.push(link);
 
             });
             $("#photos").append(images)
 
             $('input#search').val(''); // empty the search box
             newFilter.del(filterList);
-            hideAllBut(newFilter.get())
+            hideAllBut(newFilter.get());
 
         });
     };
 
-    var showAll = function(){
+    var showAll = function () {
         $("li.tagentry").show();
     };
 
-    var fillTagList = function(items){
-        $.each(items, function() {
+    var fillTagList = function (items) {
+        $.each(items, function () {
             $('<li/>',{
                 class: "tagentry",
                 text: this.name
@@ -102,7 +102,7 @@ var TagList = function(){
         //FIXME this will search hidden entries too
         $('input#search').quicksearch('ul#taglist li')
 
-        $("#taglist li.tagentry").click(function() {
+        $("#taglist li.tagentry").click(function () {
             var tagname = $(this).html();
             loadPhotos(tagname);
             addToTagstrip(tagname); 
@@ -110,12 +110,12 @@ var TagList = function(){
 
     };
 
-    var init = function(){
+    var init = function () {
     // Get all the tags from the server
-        $.getJSON('tags', function(tags) {
+        $.getJSON('tags', function (tags) {
             var items = [];
 
-            tags.sort(function(a, b) {
+            tags.sort(function (a, b) {
                 return b.weight - a.weight;
             });
 
@@ -124,20 +124,20 @@ var TagList = function(){
 
     };
 
-    return{
-        init: init,
+    return {
+        init: init
     }
 };
 
     var TL = TagList();
 
-var main = function() {
+var main = function () {
 
     // Show this div only when there is at least one active ajax query
     $('#loadingdiv').hide()
-    .ajaxStart(function() {
+    .ajaxStart(function () {
         $(this).show();
-    }).ajaxStop(function() {
+    }).ajaxStop(function () {
         $(this).hide();
     });
 
@@ -145,6 +145,6 @@ var main = function() {
 
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     main();
 });
