@@ -80,11 +80,18 @@ class ImageList(webapp.RequestHandler):
                 images = []
                 for photo in photos.entry:
                     url  = photo.content.src
-                    url_thumb = photo.media.thumbnail[1].url
+                    thumbnail = photo.media.thumbnail[1]
+                    url_thumb = thumbnail.url
+                    t_width = thumbnail.width
+                    t_height = thumbnail.height
                     phototags = photo.media.keywords.text.split(', ')
                     images.append({'original':url
-                                  ,'thumbnail': url_thumb
                                   ,'tags': phototags
+                                  ,'thumbnail':
+                                      { 'url': url_thumb
+                                      , 'width': t_width
+                                      , 'height': t_height
+                                      }
                                   })
 
             self.response.headers['Content-Type'] = "application/json"

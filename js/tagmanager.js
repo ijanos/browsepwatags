@@ -58,20 +58,32 @@ var TagList = function(){
         tags = filterList.join(',')
 
         $.getJSON('t/' + tags, function(imgs) {
-            var items = [];
             var newFilter = Set()
+            var images = []
+
+            $("#photos").empty();
 
             $.each(imgs, function() {
                 newFilter.add(this.tags)
-                items.push('<a href="' + this.original + '">' + '<img src="' + this.thumbnail + '"></img></a>');
+
+                var img = document.createElement('img');
+                img.src    = this.thumbnail.url;
+                img.width  = this.thumbnail.width;
+                img.height = this.thumbnail.height;
+
+                var link = document.createElement('a');
+                link.href = this.original;
+                link.appendChild(img);
+
+                images.push(link)
+
             });
+            $("#photos").append(images)
 
             $('input#search').val(''); // empty the search box
             newFilter.del(tags);
             hideAllBut(newFilter.get())
 
-            $("#photos").empty();
-            $("#photos").append(items.join(''));
         });
     };
 
