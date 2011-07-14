@@ -55,6 +55,16 @@ body {
     z-index: 10;
 }
 
+ul#taglist {
+    padding: 4px;
+    margin: 0px;
+    list-style-type: none;
+    font-family: arial, sans-serif;
+    font-size: 12px;
+
+}
+
+
 li.tagentry:hover {
     background-color: #FFF;
     cursor: pointer;
