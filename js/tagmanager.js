@@ -6,6 +6,7 @@ var TagList = function () {
 
     var taglistid = "#taglist"; //FIXME hardwired id
     var filterList = [];
+    var QS; //quicksearch object
 
 
     var removeTag = function (tag) {
@@ -42,10 +43,11 @@ var TagList = function () {
     };
 
     var hideAllBut = function (tags) {
-        $("li.tagentry").hide(); // hide all
+        $("li.tagentry").removeClass("searchable").hide(); // hide all
         $.each(tags, function () {
             //then show only the availables
-            $("li:contains(" + this + ")").show();
+            $("li:contains(" + this + ")").addClass("searchable").show();
+
         });
     };
 
@@ -83,24 +85,27 @@ var TagList = function () {
             $('input#search').val(''); // empty the search box
             newFilter.del(filterList);
             hideAllBut(newFilter.get());
+            QS.cache(); //refresh quicksearch cache
+            $(".searchable").attr('style',''); // XXX quicksearch hack, show all searchable element
 
         });
     };
 
     var showAll = function () {
-        $("li.tagentry").show();
+        $("li.tagentry").addClass("searchable").show();
+        QS.cache(); //refresh quicksearch cache
+        $(".searchable").attr('style',''); // XXX quicksearch hack, show all searchable element
     };
 
     var fillTagList = function (items) {
         $.each(items, function () {
             $('<li/>',{
-                class: "tagentry",
+                class: "tagentry searchable",
                 text: this.name
             }).appendTo(taglistid);
         });
 
-        //FIXME this will search hidden entries too
-        $('input#search').quicksearch('ul#taglist li')
+        QS = $('input#search').quicksearch('ul#taglist li.searchable')
 
         $("#taglist li.tagentry").click(function () {
             var tagname = $(this).html();
