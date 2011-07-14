@@ -2,22 +2,22 @@
 A simple JavaScipt Set data structure
 */
 
-var Set = function(){
+var Set = function() {
 
-    var set = []
+    var set = [];
 
-    function unique(item){
-        for(var i=0; i<set.length; i++)
+    function unique(item) {
+        for (var i = 0; i < set.length; i++)
         {
             if (set[i] === item) return false;
         }
         return true;
     }
 
-    function del(item){
+    function del(item) {
         if ($.isArray(item))
         {
-            $.each(item, function(i){
+            $.each(item, function(i) {
                 var idx = set.indexOf(item[i]);
                 if (idx != -1) set.splice(idx, 1);
             });
@@ -29,30 +29,30 @@ var Set = function(){
         }
     }
 
-    function isEmpty(){
-        return set.length === 0
+    function isEmpty() {
+        return set.length === 0;
     }
 
-    function add(item){
+    function add(item) {
         if ($.isArray(item)) // If the item is an array iterate it
         {
-            for(var i=0; i<item.length; i++)
+            for (var i = 0; i < item.length; i++)
             {
-                if (unique(item[i])) set.push(item[i])
+                if (unique(item[i])) set.push(item[i]);
             }
         }
         else
         {
-            if (unique(item)) set.push(item)
+            if (unique(item)) set.push(item);
         }
     }
 
-    function get(){
+    function get() {
         return set;
     }
 
-    function size(){
-        return set.length
+    function size() {
+        return set.length;
     }
 
     // "Export" the public functions
@@ -62,5 +62,5 @@ var Set = function(){
         del: del,
         isEmpty: isEmpty,
         size: size
-    }
+    };
 };
