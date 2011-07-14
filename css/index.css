@@ -1,13 +1,12 @@
 body {
     background-color: #CCC;
-    position:relative;
 }
 
 #loadingdiv{
-    position:absolute;
     top: 0px;
     background-color: #FFCC00;
-    padding: 10px;
+    padding: 2px;
+    width: 140px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -16,6 +15,7 @@ body {
     overflow:auto;
     background-color: #EEE;
     padding: 2px;
+    text-align: center;
 }
 
 #navbar .left{
@@ -23,7 +23,7 @@ body {
 }
 
 #navbar .right{
-    float:right;
+   float:right;
 }
 
 #photos{
