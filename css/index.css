@@ -1,6 +1,5 @@
 body {
     background-color: #CCC;
-    text-align: center;
     position:relative;
 }
 
@@ -28,19 +27,23 @@ body {
 }
 
 #photos{
-    text-align: left;
+    position: relative;
+    margin-left: 210px;
 }
 
 #tags{
     background-color: #BBB;
     width: 200px;
-    text-align: left;
-    float: left;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
 }
 
 #tagstrip{
     text-align: left;
     background-color: #BBB;
+    position: relative;
+    margin-left: 210px;
 }
 
 li.tagentry:hover {
