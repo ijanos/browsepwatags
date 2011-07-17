@@ -72,6 +72,7 @@ var TagList = function () {
                 img.src    = this.thumbnail.url;
                 img.width  = this.thumbnail.width;
                 img.height = this.thumbnail.height;
+                img.className  = "gallery"
 
                 var link = document.createElement('a');
                 link.href = this.original;

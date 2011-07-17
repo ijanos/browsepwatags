@@ -36,6 +36,12 @@ body {
     margin-top: 100px;
 }
 
+img.gallery {
+   padding:1px;
+   border:1px solid #B7B7B7;
+   margin:2px;
+}
+
 #tags{
     background-color: #BBB;
     width: 200px;
