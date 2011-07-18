@@ -76,6 +76,8 @@ var TagList = function () {
 
                 var link = document.createElement('a');
                 link.href = this.original;
+                link.className = "gallery"
+                link.rel = "group"
                 link.appendChild(img);
 
                 images.push(link);
@@ -88,6 +90,15 @@ var TagList = function () {
             hideAllBut(newFilter.get());
             QS.cache(); //refresh quicksearch cache
             $(".searchable").attr('style',''); // XXX quicksearch hack, show all searchable element
+            $("a.gallery").fancybox({
+                'padding': 5,
+                'margin': 15,
+                'hideOnContentClick': true,
+                'showCloseButton': false,
+                'transitionIn': 'none',
+                'transitionOut': 'none',
+                'changeFade': 0
+            });
 
         });
     };
