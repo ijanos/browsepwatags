@@ -85,11 +85,9 @@ var TagList = function () {
             });
             $("#photos").append(images)
 
-            $('input#search').val(''); // empty the search box
             newFilter.del(filterList);
             hideAllBut(newFilter.get());
-            QS.cache(); //refresh quicksearch cache
-            $(".searchable").attr('style',''); // XXX quicksearch hack, show all searchable element
+            refreshSearchbox();
             $("a.gallery").fancybox({
                 'padding': 5,
                 'margin': 15,
@@ -103,10 +101,15 @@ var TagList = function () {
         });
     };
 
+    var refreshSearchbox = function () {
+        QS.cache(); //refresh quicksearch cache
+        $('input#search').val(''); // empty the search box
+        $('input#search').trigger('keyup'); // force refresh quicksearch
+    };
+
     var showAll = function () {
         $("li.tagentry").addClass("searchable").show();
-        QS.cache(); //refresh quicksearch cache
-        $(".searchable").attr('style',''); // XXX quicksearch hack, show all searchable element
+        refreshSearchbox();
     };
 
     var fillTagList = function (items) {
