@@ -1,9 +1,14 @@
 body {
     background-color: #CCC;
+    height: 100%;
+    max-height: 100%;
+    overflow:hidden;
+    padding:0;
+    margin:0;
+    border:0;
 }
 
 #loadingdiv{
-    top: 0px;
     background-color: #FFCC00;
     padding: 2px;
     width: 140px;
@@ -12,14 +17,16 @@ body {
 }
 
 #navbar{
-    position: fixed;
+    position: absolute;
     background-color: #EEE;
-    padding: 2px;
-    width: 98%;
-    top: 0px;
-    margin-top: 0px;
+    width: 100%;
+    height: 26px;
     text-align: center;
-    z-index: 10;
+    padding:2px;
+    margin: 0;
+    top: 0;
+    left: 0;
+    display: block;
 }
 
 #navbar .left{
@@ -37,10 +44,12 @@ img.gallery {
 }
 
 #photos {
-    background-color: #FFFFFF;
     position: absolute;
-    top: 100px;
-    left: 210px;
+    top: 60px;
+    left: 200px;
+    right: 0;
+    bottom:0;
+    overflow: auto;
 }
 #photos > div {
     float: left;
@@ -60,22 +69,29 @@ img.gallery {
 
 
 #tags{
+    position: absolute;
+    left:0;
+    top: 60px;
     background-color: #BBB;
     width: 200px;
-    height: 97%;
-    position: fixed;
     overflow: auto;
-    top: 40px;
+    bottom:0;
+}
+
+#search {
+    border: 1px solid #009900;
+    height: 20px;
+    width: 180px;
 }
 
 #tagstrip{
-    position: fixed;
-    background-color: #BBB;
-    margin-left: 210px;
-    width: 80%;
+    position: absolute;
+    background-color: #999;
+    left: 0;
+    top: 30px;
+    width:100%;
+    height: 26px;
     padding: 2px;
-    top: 40px;
-    z-index: 10;
 }
 
 ul#taglist {
@@ -83,8 +99,7 @@ ul#taglist {
     margin: 0px;
     list-style-type: none;
     font-family: arial, sans-serif;
-    font-size: 12px;
-
+    font-size: 13px;
 }
 
 
