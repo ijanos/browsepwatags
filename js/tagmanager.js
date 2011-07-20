@@ -80,7 +80,12 @@ var TagList = function () {
                 link.rel = "group"
                 link.appendChild(img);
 
-                images.push(link);
+                var divInner = document.createElement('div');
+                var divOuter = document.createElement('div');
+                divInner.appendChild(link);
+                divOuter.appendChild(divInner);
+
+                images.push(divOuter);
 
             });
             $("#photos").append(images)

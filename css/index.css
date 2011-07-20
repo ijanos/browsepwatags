@@ -30,17 +30,34 @@ body {
    float:right;
 }
 
-#photos{
-    position: relative;
-    margin-left: 210px;
-    margin-top: 100px;
-}
-
 img.gallery {
    padding:1px;
    border:1px solid #B7B7B7;
    margin:2px;
 }
+
+#photos {
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 100px;
+    left: 210px;
+}
+#photos > div {
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 2px;
+}
+
+#photos > div > div {
+    display: table-cell;
+    vertical-align: middle;
+    background: #CCC;
+    text-align: center;
+    width: inherit;
+    height: inherit;
+}
+
 
 #tags{
     background-color: #BBB;
